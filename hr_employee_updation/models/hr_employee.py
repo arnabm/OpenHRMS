@@ -96,6 +96,7 @@ class HrEmployee(models.Model):
                     self.env['mail.mail'].sudo().create(main_content).send()
     personal_mobile = fields.Char(string='Mobile', related='address_home_id.mobile', store=True)
     joining_date = fields.Date(string='Joining Date')
+    termination_date = fields.Date(string='Termination Date')
     id_expiry_date = fields.Date(string='Expiry Date', help='Expiry date of Identification ID')
     passport_expiry_date = fields.Date(string='Expiry Date', help='Expiry date of Passport ID')
     id_attachment_id = fields.Many2many('ir.attachment', 'id_attachment_rel', 'id_ref', 'attach_ref',
