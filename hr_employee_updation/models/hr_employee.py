@@ -21,7 +21,8 @@
 #
 ###################################################################################
 from datetime import datetime, timedelta
-from odoo import models, fields, _
+from odoo import models, api, fields, _
+from odoo.exceptions import ValidationError
 
 GENDER_SELECTION = [('male', 'Male'),
                     ('female', 'Female'),
@@ -60,6 +61,17 @@ class HrEmployeeFamilyInfo(models.Model):
 
 class HrEmployee(models.Model):
     _inherit = 'hr.employee'
+
+    @api.constrains('termination_date')
+    def check_termination_date(self):
+        if self.joining_date:
+            joining_dt = fields.Date.from_string(self.joining_date)
+            termination_dt = fields.Date.from_string(self.termination_date)
+            if joining_dt > termination_dt:
+                raise ValidationError("Termination date is before joining date!")
+        else:
+            return
+
 
     def mail_reminder(self):
         """Sending expiry date notification for ID and Passport"""
