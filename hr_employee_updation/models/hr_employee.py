@@ -67,7 +67,7 @@ class HrEmployee(models.Model):
         if self.joining_date:
             joining_dt = fields.Date.from_string(self.joining_date)
             termination_dt = fields.Date.from_string(self.termination_date)
-            if joining_dt < termination_dt:
+            if joining_dt > termination_dt:
                 raise ValidationError("Termination date is before joining date!");
         else:
             return
